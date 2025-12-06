@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chatting webpage</title>
+</head>
+
+<style>
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #e8c5ff, #d4b2ff, #f8d4e7);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar {
+    width: 80%;
+    max-width: 350px;
+    min-height: 500px;
+    background: rgba(180, 220, 230, 0.4);
+    backdrop-filter: blur(15px);
+    padding: 25px 20px;
+    border-radius: 25px;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+h1 {
+    text-align: center;
+    color: #a31476;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.chat-box {
+    width: 100%;
+    max-height: 350px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 15px;
+    padding: 15px;
+    overflow-y: auto;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+}
+
+form {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ff9eb5;
+    background: #fff;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #ff69a3;
+    box-shadow: 0 0 8px rgba(255, 105, 163, 0.4);
+}
+
+button {
+    padding: 12px 18px;
+    background: #ffd86b;
+    font-weight: bold;
+    color: #5c4600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ffcc3d;
+    transform: scale(1.05);
+}
+
+
+
+
+    </style>
+<body>
+    <div class="navbar">
+        <h1>Chatting web</h1>
+
+    <div class="chat container">
+    <div class="messages">
+    </div>
+
+        <input type="text" name="message" placeholder="Enter your message" id="txt">
+        <button>Send</button>
+
+        
+    </div>
+    </div>
+
+    
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+var socket = io();
+const div = document.querySelector('.messages');
+const btn = document.querySelector('button');
+let inp = document.querySelector('#txt');
+btn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    let inputvlue = inp.value;
+    if(inputvlue){
+        socket.emit('message',inputvlue);
+        inp.value= '';
+    }
+
+    socket.on('message',(msg)=>{
+        const span = document.createElement('p');
+        span.textContent = msg;
+        div.appendChild(span);
+    })
+})
+
+
+
+
+    </script>
+
+
+</body>
+</html>
